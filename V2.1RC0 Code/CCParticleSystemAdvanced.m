@@ -73,6 +73,7 @@
 		_startSpinVar = [[dictionary valueForKey:@"rotationStartVariance"] floatValue];
 		_endSpin = [[dictionary valueForKey:@"rotationEnd"] floatValue];
 		_endSpinVar = [[dictionary valueForKey:@"rotationEndVariance"] floatValue];
+        _useSameRotation = [[dictionary valueForKey:@"sameRotation"] unsignedIntegerValue];
         
         _emitterMode = kCCParticleModeGravity;
         
@@ -216,7 +217,11 @@
     
 	// rotation
 	float startA = _startSpin + _startSpinVar * CCRANDOM_MINUS1_1();
-	float endA = _endSpin + _endSpinVar * CCRANDOM_MINUS1_1();
+    float endA = 0.0f;
+    if(_useSameRotation)
+        endA = startA;
+    else
+        endA = _endSpin + _endSpinVar * CCRANDOM_MINUS1_1();
 	particle->rotation = startA;
 	particle->deltaRotation = (endA - startA) / particle->timeToLive;
     

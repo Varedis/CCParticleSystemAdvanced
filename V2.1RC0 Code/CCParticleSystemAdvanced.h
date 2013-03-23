@@ -185,8 +185,8 @@ typedef enum
     
     
 //    CCParticleSystemAdvanced Varibles
-    
     NSUInteger _looping;
+    NSUInteger _useSameRotation;
     
     EmitterType _emitterType;
     float _startDelay;
