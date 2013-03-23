@@ -34,11 +34,18 @@
 
 -(id) initWithPlist:(NSString *)plistFile
 {
+    NSString *path = [[CCFileUtils sharedFileUtils]fullPathFromRelativePath:plistFile];
+    NSDictionary *fullDict = [NSDictionary dictionaryWithContentsOfFile:path];
+    NSAssert( fullDict != nil, @"Particles: file not found");
+    
+    return [self initWithFullDictionary:fullDict];
+}
+
+-(id) initWithFullDictionary:(NSDictionary *)fullDict
+{
     if((self = [super init]))
     {
-        NSString *path = [[CCFileUtils sharedFileUtils]fullPathFromRelativePath:plistFile];
-        NSDictionary *fullDict = [NSDictionary dictionaryWithContentsOfFile:path];
-        NSAssert( fullDict != nil, @"Particles: file not found");
+        NSAssert( fullDict != nil, @"Particles: dictionary not found");
         
         int numberOfLayers = [[fullDict objectForKey:@"layers"] intValue];
         
@@ -56,32 +63,6 @@
     return self;
 }
 
--(id) initWithFullDictionary:(NSDictionary *)fullDict
-{
-    if((self = [super init]))
-    {
-        NSAssert( fullDict != nil, @"Particles: file not found");
-        
-        int numberOfLayers = [[fullDict objectForKey:@"layers"] intValue];
-        
-        for(int index = 0; index < numberOfLayers; index++)
-        {
-            NSDictionary *dict = [fullDict objectForKey:[NSString stringWithFormat:@"Layer%i", index]];
-            
-            NSString *string = [[dict valueForKey:@"textureFileUrl"] retain];
-            
-            SpriteSheetParticleSystem *particleLayer = [[SpriteSheetParticleSystem alloc] initWithDictionary:dict WithSpriteSheet:@"" andString:string count:0];
-            
-            float x = [[dict valueForKey:@"sourcePositionx"] floatValue];
-            float y = [[dict valueForKey:@"sourcePositiony"] floatValue];
-            particleLayer.position = ccp(x,y);
-            
-            [self addChild:particleLayer z:0];
-        }
-    }
-    return self;
-}
-
 -(id) init
 {
     if((self = [super init]))
@@ -90,6 +71,7 @@
     }
     return self;
 }
+
 
 -(void) resetAllLayers
 {
