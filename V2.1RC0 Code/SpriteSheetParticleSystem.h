@@ -24,7 +24,8 @@
 	GLuint				_buffersVBO[2]; //0: vertex  1: indices
     
     
-    NSString *nameString;
+    NSString *_nameString;
+    BOOL _usingSpriteSheet;
     
     int _amountOfParticles;
 }

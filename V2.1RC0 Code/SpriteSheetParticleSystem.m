@@ -28,9 +28,11 @@
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spritesheet];
         
         CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_01.png", str]];
-        nameString = [str retain];
+        _nameString = [str retain];
         
         _amountOfParticles = count;
+        
+        _usingSpriteSheet = YES;
         
         [self setTexture:frame.texture];
         
@@ -43,8 +45,8 @@
 {
     if ((self = [super initWithDictionary:dictionary]))
     {
-        nameString = [str retain];
-        CCSprite *frame = [CCSprite spriteWithFile:nameString];
+        _nameString = [str retain];
+        CCSprite *frame = [CCSprite spriteWithFile:_nameString];
         
         _amountOfParticles = 1;
         
@@ -223,6 +225,8 @@
 		glDeleteVertexArrays(1, &_VAOname);
 	}
     
+    [_nameString release];
+    
     [super dealloc];
 }
 
@@ -235,15 +239,15 @@
     {
         int frameNumber = 0;
         CGRect rect = CGRectZero;
-        if(_amountOfParticles > 1)
+        if(_usingSpriteSheet)
         {
             frameNumber = (arc4random() % _amountOfParticles) + 1;
-            CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_%02i.png", nameString, frameNumber]];
+            CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_%02i.png", _nameString, frameNumber]];
             rect = [frame rect];
         }
         else
         {
-            CCSprite *frame = [CCSprite spriteWithFile:nameString];
+            CCSprite *frame = [CCSprite spriteWithFile:_nameString];
             rect= [[frame displayFrame] rect];
         }
         

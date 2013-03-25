@@ -25,4 +25,8 @@
 -(void) removeLayer:(int)index;
 -(SpriteSheetParticleSystem *) removeAndAddLayer:(NSDictionary *)dict index:(int)index;
 
+-(void) setAutoRemoveOnFinish:(BOOL)value;
+-(void) setPositionType:(tCCPositionType)value;
+-(void) runAction:(CCAction *)action;
+
 @end

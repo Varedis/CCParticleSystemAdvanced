@@ -176,6 +176,8 @@
     
 	[_texture release];
     
+    [_dict release];
+    _dict = nil;
     
     [sizeOverTime release];
     sizeOverTime = nil;

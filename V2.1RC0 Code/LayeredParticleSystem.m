@@ -53,25 +53,32 @@
         {
             NSDictionary *dict = [fullDict objectForKey:[NSString stringWithFormat:@"Layer%i", index]];
             
-            NSString *string = [[dict valueForKey:@"textureFileName"] retain];
+            NSString *string = [dict valueForKey:@"textureFileName"];
             
             SpriteSheetParticleSystem *particleLayer = [[SpriteSheetParticleSystem alloc] initWithDictionary:dict andString:string];
             
             [self addChild:particleLayer z:0];
+            
+            [particleLayer release];
         }
     }
     return self;
 }
 
--(id) init
+-(void) dealloc
 {
-    if((self = [super init]))
-    {
-        
-    }
-    return self;
+    [super dealloc];
 }
 
+-(void)removeChild: (CCParticleSystem*) child cleanup:(BOOL)doCleanup
+{
+    [super removeChild:child cleanup:doCleanup];
+    
+    if(![[self children] count])
+    {
+        [self removeFromParentAndCleanup:YES];
+    }
+}
 
 -(void) resetAllLayers
 {
@@ -128,6 +135,30 @@
     [self removeLayer:index];
     
     return [self addNewLayer:dict index:index];
+}
+
+-(void) setAutoRemoveOnFinish:(BOOL)value
+{
+    for (SpriteSheetParticleSystem *layer in [self children])
+    {
+        [layer setAutoRemoveOnFinish:value];
+    }
+}
+
+-(void) setPositionType:(tCCPositionType)value
+{
+    for (SpriteSheetParticleSystem *layer in [self children])
+    {
+        [layer setPositionType:value];
+    }
+}
+
+-(void) runAction:(CCAction *)action
+{
+    for (SpriteSheetParticleSystem *layer in [self children])
+    {
+        [layer runAction:[action copy]];
+    }
 }
 
 @end
