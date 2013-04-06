@@ -74,10 +74,12 @@
 {
     [super removeChild:child cleanup:doCleanup];
     
+#ifndef isParticleProducer
     if(![[self children] count])
     {
         [self removeFromParentAndCleanup:YES];
     }
+#endif
 }
 
 -(void) resetAllLayers

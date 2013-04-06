@@ -74,10 +74,12 @@
 {
     [super removeChild:child cleanup:doCleanup];
     
+#ifndef isParticleProducer
     if(![[self children] count])
     {
         [self removeFromParentAndCleanup:YES];
     }
+#endif
 }
 
 -(void) resetAllLayers
@@ -111,15 +113,10 @@
 {
     NSAssert( dict != nil, @"Particles: file not found");
     
-    NSString *string = [[dict valueForKey:@"textureFileUrl"] retain];
+    NSString *string = [dict valueForKey:@"textureFileUrl"];
     
-    SpriteSheetParticleSystem *particleLayer = [[SpriteSheetParticleSystem alloc] initWithDictionary:dict WithSpriteSheet:@"ParticleEffect.plist" andString:string count:1];
+    SpriteSheetParticleSystem *particleLayer = [[SpriteSheetParticleSystem alloc] initWithDictionary:dict andString:string];
     
-    [string release];
-    
-    float x = [[dict valueForKey:@"sourcePositionx"] floatValue];
-    float y = [[dict valueForKey:@"sourcePositiony"] floatValue];
-    particleLayer.position = ccp(x,y);
     [self addChild:particleLayer z:0 tag:index];
     
     return particleLayer;

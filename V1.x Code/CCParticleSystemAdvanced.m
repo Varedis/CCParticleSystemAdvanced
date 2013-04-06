@@ -206,7 +206,7 @@
 }
 
 -(void) dealloc
-{
+{    
     [self unscheduleUpdate];
     
 	free( particles );
@@ -712,7 +712,7 @@
 	[self update:0.0f];
 }
 
--(void) updateQuadWithParticle:(tCCParticle*)particle newPosition:(CGPoint)pos;
+-(void) updateQuadWithParticle:(rCCParticle*)particle newPosition:(CGPoint)pos;
 {
 	// should be overriden
 }

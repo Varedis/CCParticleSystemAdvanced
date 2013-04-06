@@ -383,7 +383,7 @@ typedef enum
 -(BOOL) isFull;
 
 //! should be overriden by subclasses
--(void) updateQuadWithParticle:(tCCParticle*)particle newPosition:(CGPoint)pos;
+-(void) updateQuadWithParticle:(rCCParticle*)particle newPosition:(CGPoint)pos;
 //! should be overriden by subclasses
 -(void) postStep;
 

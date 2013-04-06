@@ -51,6 +51,7 @@
         CCSprite *frame = [CCSprite spriteWithFile:nameString];
         
         _amountOfParticles = 1;
+        
         _usingSpriteSheet = NO;
         
         [self setTexture:frame.texture];
@@ -148,6 +149,8 @@
 
 -(void) dealloc
 {
+    NSLog(@"DEALLOC");
+    
 	if (quads_) free(quads_);
 	if (indices_) free(indices_);
 #if CC_USES_VBO
@@ -256,7 +259,7 @@
 	}
 }
 
--(void) updateQuadWithParticle:(tCCParticle*)p newPosition:(CGPoint)newPos
+-(void) updateQuadWithParticle:(rCCParticle*)p newPosition:(CGPoint)newPos
 {
 	// colors
 	ccV3F_C4B_T2F_Quad *quad;
